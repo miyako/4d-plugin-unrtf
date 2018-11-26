@@ -186,8 +186,10 @@ enum
 };
 static int within_picture = FALSE;
 static int within_picture_depth;
+
 //static int picture_file_number = 1;
 //static char picture_path[1024];
+
 static int picture_width;
 static int picture_height;
 static int picture_bits_per_pixel = 1;
@@ -1320,9 +1322,14 @@ typedef struct
 } Color;
 
 #define MAX_COLORS (1024)
-static Color color_table[MAX_COLORS];
-static int total_colors = 0;
 
+/* color table must be created for each rtf */
+
+//static Color color_table[MAX_COLORS];
+Color color_table[MAX_COLORS];
+
+//static int total_colors = 0;
+int total_colors = 0;
 
 /*========================================================================
  * Name:	process_color_table
@@ -1335,7 +1342,8 @@ void
 process_color_table(Word *w)
 {
 	int r, g, b;
-
+    total_colors = 0;
+    
 	CHECK_PARAM_NOT_NULL(w);
 
 	/* Sometimes, RTF color tables begin with a semicolon,
