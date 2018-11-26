@@ -989,6 +989,7 @@ assemble_string(char *string, int nr)
 
 		if (string[i] != '\0')
 		{
+            memset(tmp, 0, sizeof(tmp));/* clean buffer */
 			snprintf(tmp, 20, "%d", nr);
 			strcpy(&s[j], tmp);
 			j = j + strlen(tmp);

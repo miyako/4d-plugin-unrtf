@@ -402,6 +402,7 @@ op_begin_std_fontsize(OutputPersonality *op, int size)
 		if (op->fontsize_begin)
 		{
 			char expr[16];
+            memset(expr, 0, sizeof(expr));/* clean buffer */
 			snprintf(expr, 16, "%d", size);
 			if (safe_printf(1, op->fontsize_begin, expr))
 			{
@@ -629,6 +630,7 @@ op_end_std_fontsize(OutputPersonality *op, int size)
 		if (op->fontsize_end)
 		{
 			char expr[16];
+            memset(expr, 0, sizeof(expr));/* clean buffer */
 			snprintf(expr, 16, "%d", size);
 			if (safe_printf(1, op->fontsize_end, expr))
 			{

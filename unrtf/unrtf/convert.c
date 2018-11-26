@@ -1445,6 +1445,7 @@ cmd_cf(Word *w, int align, char has_param, int num)
 	}
 	else
 	{
+        memset(str, 0, sizeof(str));/* clean buffer */
 		snprintf(str, 40, "#%02x%02x%02x",
 				 color_table[num].r,
 				 color_table[num].g,
@@ -1474,6 +1475,7 @@ cmd_cb(Word *w, int align, char has_param, int num)
 	}
 	else
 	{
+        memset(str, 0, sizeof(str));/* clean buffer */
 		snprintf(str, 40, "#%02x%02x%02x",
 				 color_table[num].r,
 				 color_table[num].g,
@@ -1503,6 +1505,7 @@ cmd_fs(Word *w, int align, char has_param, int points)
 	/* Note, fs20 means 10pt */
 	points /= 2;
 
+    memset(str, 0, sizeof(str));/* clean buffer */
 	snprintf(str, 20, "%d", points);
 	attr_push(ATTR_FONTSIZE, str);
 
@@ -1693,6 +1696,7 @@ cmd_f(Word *w, int align, char has_param, int num)
 		{
 			// TOBEDONE: WHAT'S THIS ???
 			name = my_malloc(12);
+            memset(name, 0, 12);/* clean buffer */
 			snprintf(name, 12, "%d", num);
 		}
 
@@ -1750,6 +1754,7 @@ cmd_highlight(Word *w, int align, char has_param, int num)
 	}
 	else
 	{
+        memset(str, 0, sizeof(str));/* clean buffer */
 		snprintf(str, 40, "#%02x%02x%02x",
 		        color_table[num].r,
 		        color_table[num].g,
@@ -1922,6 +1927,7 @@ cmd_expand(Word *w, int align, char has_param, int param)
 	char str[20];
 	if (has_param)
 	{
+        memset(str, 0, sizeof(str));/* clean buffer */
 		snprintf(str, 20, "%d", param / 4);
 		if (!param)
 		{
@@ -1955,6 +1961,7 @@ cmd_emboss(Word *w, int align, char has_param, int param)
 #endif
 	else
 	{
+        memset(str, 0, sizeof(str));/* clean buffer */
 		snprintf(str, 20, "%d", param);
 		attr_push(ATTR_EMBOSS, str);
 	}
@@ -1979,6 +1986,7 @@ cmd_engrave(Word *w, int align, char has_param, int param)
 	}
 	else
 	{
+        memset(str, 0, sizeof(str));/* clean buffer */
 		snprintf(str, 20, "%d", param);
 		attr_push(ATTR_ENGRAVE, str);
 	}
@@ -2624,7 +2632,7 @@ static int cmd_u(Word *w, int align, char has_param, int param)
 	 */
 
 	short	done = 0;
-	long unicode_number = (long) param; /* On 16bit architectures int is too small to store unicode characters. - AF */
+	long unicode_number = (long)param; /* On 16bit architectures int is too small to store unicode characters. - AF */
 	char tmp[20]; /* Number of characters that can be in int type (including '\0'). If int size is greater than 4 bytes change this value. - AF */
 	const char *alias;
 #define DEBUG 0
@@ -2655,6 +2663,7 @@ static int cmd_u(Word *w, int align, char has_param, int param)
 			/* RTF spec: Unicode values beyond 32767 are represented by negative numbers */
 			unicode_number += 65536;
 		}
+        memset(tmp, 0, sizeof(tmp));/* clean buffer */
 		snprintf(tmp, 20, "%ld", unicode_number);
 
 		if (safe_printf(1, op->unisymbol_print, tmp))
