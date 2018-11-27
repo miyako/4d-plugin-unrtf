@@ -36,6 +36,10 @@
  * 25 Sep 11, jf@dockes.org: reposition top #ifndef
  *--------------------------------------------------------------------*/
 
+#ifdef _WIN32
+#include <stdio.h>
+#endif
+
 typedef struct _w
 {
 	const char *str;

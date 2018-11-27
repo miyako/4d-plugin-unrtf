@@ -57,6 +57,13 @@
 #include "error.h"
 #include "malloc.h"
 
+#ifdef _WIN32
+#include <stdio.h>
+#include <stdlib.h>
+#include <memory.h>
+#include <string.h>
+#endif
+
 //static unsigned long count = 0;
 unsigned long count = 0;
 

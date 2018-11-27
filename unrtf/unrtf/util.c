@@ -54,6 +54,57 @@
 
 #include "util.h"
 
+#ifdef _WIN32
+#include "malloc.h"
+#include <ctype.h>
+#include <string.h>
+#ifdef _WIN32
+
+int strcasecmp(const char *s1, const char *s2)
+{
+	int i, ret;
+	char *cp1, *cp2;
+
+	cp1 = my_malloc(strlen(s1) + 1);
+	cp2 = my_malloc(strlen(s2) + 1);
+
+	for (i = 0; i < strlen(s1) + 1; i++)
+		cp1[i] = tolower((int)(unsigned char)s1[i]);
+	for (i = 0; i < strlen(s2) + 1; i++)
+		cp2[i] = tolower((int)(unsigned char)s2[i]);
+
+	ret = strcmp(cp1, cp2);
+
+	free(cp1);
+	free(cp2);
+
+	return ret;
+}
+
+#define strncasecmp(x,y,z) _strnicmp(x,y,z)
+
+char *
+strcasestr(const char *s, const char *find)
+{
+	char c, sc;
+	size_t len;
+	if ((c = *find++) != 0) {
+		c = (char)tolower((unsigned char)c);
+		len = strlen(find);
+		do {
+			do {
+				if ((sc = *s++) == 0)
+					return (NULL);
+			} while ((char)tolower((unsigned char)sc) != c);
+		} while (strncasecmp(s, find, len) != 0);
+		s--;
+	}
+	return ((char *)s);
+}
+
+#endif
+#endif
+
 /*========================================================================
  * Name:	h2toi
  * Purpose:	Converts a 2-digit hexadecimal value to an unsigned integer.

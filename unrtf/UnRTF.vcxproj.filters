@@ -72,6 +72,20 @@
     <ClCompile Include="4D Plugin API\Classes\ARRAY_TIME.cpp">
       <Filter>Source\4D Plugin API\Classes\ARRAY</Filter>
     </ClCompile>
+    <ClCompile Include="ufopen.c" />
+    <ClCompile Include="unrtf\attr.c" />
+    <ClCompile Include="unrtf\convert.c" />
+    <ClCompile Include="unrtf\error.c" />
+    <ClCompile Include="unrtf\hash.c" />
+    <ClCompile Include="unrtf\malloc.c" />
+    <ClCompile Include="unrtf\my_iconv.c" />
+    <ClCompile Include="unrtf\output.c" />
+    <ClCompile Include="unrtf\parse.c" />
+    <ClCompile Include="unrtf\path.c" />
+    <ClCompile Include="unrtf\unicode.c" />
+    <ClCompile Include="unrtf\user.c" />
+    <ClCompile Include="unrtf\util.c" />
+    <ClCompile Include="unrtf\word.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="4DPlugin.h">
@@ -140,6 +154,23 @@
     <ClInclude Include="4D Plugin API\Classes\ARRAY_TIME.h">
       <Filter>Source\4D Plugin API\Classes\ARRAY</Filter>
     </ClInclude>
+    <ClInclude Include="ufopen.h" />
+    <ClInclude Include="unrtf\attr.h" />
+    <ClInclude Include="unrtf\config.h" />
+    <ClInclude Include="unrtf\convert.h" />
+    <ClInclude Include="unrtf\defs.h" />
+    <ClInclude Include="unrtf\error.h" />
+    <ClInclude Include="unrtf\hash.h" />
+    <ClInclude Include="unrtf\main.h" />
+    <ClInclude Include="unrtf\malloc.h" />
+    <ClInclude Include="unrtf\my_iconv.h" />
+    <ClInclude Include="unrtf\output.h" />
+    <ClInclude Include="unrtf\parse.h" />
+    <ClInclude Include="unrtf\path.h" />
+    <ClInclude Include="unrtf\unicode.h" />
+    <ClInclude Include="unrtf\user.h" />
+    <ClInclude Include="unrtf\util.h" />
+    <ClInclude Include="unrtf\word.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="4D Plugin API\4DPluginAPI.def">

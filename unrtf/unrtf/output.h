@@ -40,7 +40,7 @@
 #include "attr.h"
 #include "my_iconv.h"
 
-typedef Collection Aliases;
+typedef UnRtfCollection Aliases;
 
 typedef struct
 {

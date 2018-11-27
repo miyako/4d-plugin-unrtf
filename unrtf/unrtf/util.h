@@ -39,6 +39,13 @@
 #include <stdio.h>
 #endif
 
+#ifdef _WIN32
+#include <stdlib.h>
+#include <stdio.h>
+char *strcasestr(const char *s, const char *find);
+int strcasecmp(const char *s1, const char *s2);
+#endif
+
 extern int h2toi(const char *);
 
 void leave_line(FILE *f);

@@ -181,11 +181,11 @@ op_translate_char(OutputPersonality *op, char *encoding, int ch)
 		}
 
 		/* Conversion from UTF-32BE string to int */
-#ifdef _WIN32
-		unicode = unrtf_ntohl(outbuf);
-#else
+//#ifdef _WIN32
+//		unicode = unrtf_ntohl(outbuf);
+//#else
 		unicode = ntohl(outbuf);
-#endif
+//#endif
 #if 0
 		if (unicode != ch)
 			fprintf(stderr, "op_translate: 0x%x -> unicode 0x%x\n",
@@ -249,11 +249,11 @@ op_translate_buffer(OutputPersonality *op, char *buffer, int bytescnt)
 		const char *result;
 		int freeresult = 0;
 		int incsz;
-#ifdef _WIN32
-		int unicode = unrtf_ntohl(*(int *)(buffer + 4 * i));
-#else
+//#ifdef _WIN32
+//		int unicode = unrtf_ntohl(*(int *)(buffer + 4 * i));
+//#else
 		int unicode = ntohl(*(int *)(buffer + 4 * i));
-#endif
+//#endif
 
 		result = get_alias(op, unicode); /* Try for ie, entity */
 		if (result != NULL)

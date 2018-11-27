@@ -7,7 +7,13 @@
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #else
+#ifndef _WIN32
 #include "safeunistd.h"
+#endif
+#endif
+
+#ifdef _WIN32
+#include <unistd.h>
 #endif
 
 #include <stdlib.h>
