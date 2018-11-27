@@ -26,5 +26,5 @@ text:=UnRTF(path{;format})
 Parameter|Type|Description
 ------------|------------|----
 path|TEXT|``UnRTF Output HTML`` ``UnRTF Output plain text`` ``UnRTF Output VT100`` ``UnRTF Output LaTeX``
-request|LONGINT|
+format|LONGINT|
 text|TEXT|
