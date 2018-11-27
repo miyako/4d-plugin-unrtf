@@ -11,6 +11,8 @@
 #ifndef __4DPLUGIN_H__
 #define __4DPLUGIN_H__ 1
 
+#include <mutex>
+
 #include "config.h"
 
 #ifdef HAVE_STDIO_H

@@ -57,7 +57,8 @@
 #include "error.h"
 #include "malloc.h"
 
-static unsigned long count = 0;
+//static unsigned long count = 0;
+unsigned long count = 0;
 
 /*========================================================================
  * Name:	my_malloc

@@ -405,8 +405,10 @@ static char *output_encoding = "UTF-32BE";
 static int default_font_number = 0; // Set by \deffx command
 static int had_ansicpg;
 #define MAX_FONTS (8192)
-static FontEntry font_table[MAX_FONTS];
-static int total_fonts = 0;
+//static FontEntry font_table[MAX_FONTS];
+FontEntry font_table[MAX_FONTS];
+//static int total_fonts = 0;
+int total_fonts = 0;
 
 static void flush_iconv_input();
 static void accumulate_iconv_input(int ch);
@@ -838,6 +840,8 @@ Word *read_font_decl(Word *w)
 void
 process_font_table(Word *w)
 {
+    total_fonts = 0;
+    
 	CHECK_PARAM_NOT_NULL(w);
 
 	if (safe_printf(0, op->fonttable_begin))

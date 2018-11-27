@@ -78,8 +78,8 @@
 
 
 /* For word_dump */
-static int indent_level = 0;
-
+//static int indent_level = 0;
+int indent_level = 0;
 
 /*========================================================================
  * Name:	word_string

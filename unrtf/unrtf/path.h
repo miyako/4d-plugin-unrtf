@@ -8,8 +8,8 @@
 #include "4DPluginAPI.h"
 #include "4DPlugin.h"
 
-extern char *search_path;
-extern int   path_checked;
+//extern char *search_path;
+//extern int   path_checked;
 
 struct path_dir
 {

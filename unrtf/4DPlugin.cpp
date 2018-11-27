@@ -12,6 +12,8 @@
 #include "4DPluginAPI.h"
 #include "4DPlugin.h"
 
+std::mutex mutexUnRtf;
+
 /* moved from main.c */
 
 int nopict_mode; /* TRUE => Do not write \pict's to files */
@@ -128,17 +130,19 @@ void user_init(UnRTF_Output format)
 
 FILE *ufopen(const char *filename, const char *mode);
 
+#pragma mark -
+
 void UnRTF(sLONG_PTR *pResult, PackagePtr pParams)
 {
     C_TEXT Param1;
     C_LONGINT Param2;
-    C_TEXT Param3;
     C_TEXT returnValue;
 
 	Param1.fromParamAtIndex(pParams, 1);
 	Param2.fromParamAtIndex(pParams, 2);
-	Param3.fromParamAtIndex(pParams, 3);
 
+    std::lock_guard<std::mutex> lock(mutexUnRtf);
+    
     user_init((UnRTF_Output)Param2.getIntValue());
     
     lineno = 0;
