@@ -87,11 +87,11 @@ static bool getUnRTFConf(std::string& path) {
     _wsplitpath_s(windowsPath.c_str(), fDrive, fDir, fName, fExt);
     std::wstring resourcesPath = fDrive;
     resourcesPath += fDir;
-    resourcesPath += L"Resources\\";:
+    resourcesPath += L"Resources\\";
     
-    CUTF16String u16 = (const PA_Unichar *)resourcesPath;
+    CUTF16String u16 = (const PA_Unichar *)resourcesPath.c_str();
     
-    u16_to_u8(path);
+    u16_to_u8(u16, path);
     
     return true;
 #endif
@@ -162,8 +162,9 @@ static void UnRTF(PA_PluginParameters params) {
         
         if(op) {
 #if VERSIONWIN
-            int p[2];
-            FILE *f = fmemopen(PA_LockHandle(h), PA_GetHandleSize(h),  p );
+			std::FILE* f = std::tmpfile();
+			std::fwrite(PA_LockHandle(h), sizeof(char), (size_t)PA_GetHandleSize(h), f);
+			std::rewind(f);
 #else
             FILE *f = fmemopen(PA_LockHandle(h), PA_GetHandleSize(h), "r");
 #endif
@@ -180,7 +181,7 @@ static void UnRTF(PA_PluginParameters params) {
                     ob_set_s(status, L"error", e.what());
                 }
 #if VERSIONWIN
-                fclose(f);_close(p);
+                fclose(f);
 #else
                 fclose(f);
 #endif

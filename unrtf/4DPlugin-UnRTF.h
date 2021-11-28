@@ -29,9 +29,9 @@ FILE *fmemopen(const char* ptr, size_t sz, int p[2])
     if(rc != 0)
         return NULL;
     // まず書き込んでやる
-    _write(p[WRITE], ptr, (unsigned int)sz);
+    _write(p[1], ptr, (unsigned int)sz);
     // 読み込みをFILE構造体に変換
-    return _fdopen(p[READ], "rb");
+    return _fdopen(p[0], "rb");
 }
 #endif
 

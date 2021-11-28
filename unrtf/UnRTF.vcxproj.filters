@@ -5,6 +5,21 @@
       <Filter>4D Plugin API</Filter>
     </ClCompile>
     <ClCompile Include="4DPlugin-UnRTF.cpp" />
+    <ClCompile Include="lib\unrtf\convert.cpp" />
+    <ClCompile Include="lib\unrtf\error.cpp" />
+    <ClCompile Include="lib\unrtf\hash.cpp" />
+    <ClCompile Include="lib\unrtf\malloc.cpp" />
+    <ClCompile Include="lib\unrtf\my_iconv.cpp" />
+    <ClCompile Include="lib\unrtf\output.cpp" />
+    <ClCompile Include="lib\unrtf\parse.cpp" />
+    <ClCompile Include="lib\unrtf\path.cpp" />
+    <ClCompile Include="lib\unrtf\unicode.cpp" />
+    <ClCompile Include="lib\unrtf\user.cpp" />
+    <ClCompile Include="lib\unrtf\util.cpp" />
+    <ClCompile Include="lib\unrtf\word.cpp" />
+    <ClCompile Include="lib\unrtf\attr.cpp" />
+    <ClCompile Include="support\4DPlugin-JSON.cpp" />
+    <ClCompile Include="support\ufopen.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="4D Plugin API\4DPluginAPI.h">
@@ -23,6 +38,23 @@
       <Filter>4D Plugin API</Filter>
     </ClInclude>
     <ClInclude Include="4DPlugin-UnRTF.h" />
+    <ClInclude Include="lib\unrtf\convert.h" />
+    <ClInclude Include="lib\unrtf\defs.h" />
+    <ClInclude Include="lib\unrtf\error.h" />
+    <ClInclude Include="lib\unrtf\hash.h" />
+    <ClInclude Include="lib\unrtf\malloc.h" />
+    <ClInclude Include="lib\unrtf\my_iconv.h" />
+    <ClInclude Include="lib\unrtf\output.h" />
+    <ClInclude Include="lib\unrtf\parse.h" />
+    <ClInclude Include="lib\unrtf\path.h" />
+    <ClInclude Include="lib\unrtf\unicode.h" />
+    <ClInclude Include="lib\unrtf\user.h" />
+    <ClInclude Include="lib\unrtf\util.h" />
+    <ClInclude Include="lib\unrtf\word.h" />
+    <ClInclude Include="lib\unrtf\attr.h" />
+    <ClInclude Include="lib\unrtf\config.h" />
+    <ClInclude Include="support\4DPlugin-JSON.h" />
+    <ClInclude Include="support\ufopen.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="4D Plugin API">
