@@ -129,7 +129,7 @@ static void UnRTF(PA_PluginParameters params) {
 //                    if(format == (const uint8_t *)"vt"){
 //                        fmt = unrtf_format_vt;goto set_format;
 //                    }
-                    if(format == (const uint8_t *)"text"){
+                    if(format == (const uint8_t *)"txt"){
                         fmt = unrtf_format_text;goto set_format;
                     }
                     if(format == (const uint8_t *)"html"){
