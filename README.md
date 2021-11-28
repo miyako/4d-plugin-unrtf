@@ -9,11 +9,11 @@
 ## Syntax
 
 ```
-text:=UnRTF(rtf{;options})
+status:=UnRTF(rtf{;options})
 ```
 
 Parameter|Type|Description
 ------------|------------|----
 rtf|BLOB|
 options|OBJECT|
-text|TEXT|
+status|OBJECT|
