@@ -4,7 +4,7 @@
 ![downloads](https://img.shields.io/github/downloads/miyako/4d-plugin-unrtf/total)
 
 # 4d-plugin-unrtf
-4D implementation of GNU [UnRTF](https://www.gnu.org/software/unrtf/)
+4D implementation of GNU [UnRTF](https://www.gnu.org/software/unrtf/).
 
 ## Syntax
 
@@ -15,5 +15,5 @@ status:=UnRTF(rtf{;options})
 Parameter|Type|Description
 ------------|------------|----
 rtf|BLOB|
-options|OBJECT|
+options|OBJECT|`format` can be `html` `txt` `tex`
 status|OBJECT|
