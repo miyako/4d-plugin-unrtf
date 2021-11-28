@@ -1,0 +1,11 @@
+{
+    "name": "UnRTF",
+    "id": 20000,
+    "commands": [
+        {
+            "theme": "UnRTF",
+            "syntax": "UnRTF(&O;&J):J",
+            "threadSafe": true
+        }
+    ]
+}
