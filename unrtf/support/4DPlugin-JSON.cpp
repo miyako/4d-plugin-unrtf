@@ -115,6 +115,31 @@ bool ob_set_s(PA_ObjectRef obj, const wchar_t *_key, const char *_value, std::st
             ob_set_s(obj, _key, (const char *)&buf[0]);
             success = true;
         }
+        else {
+            CUTF8String u8 = CUTF8String((const uint8_t*)_value);
+            CUTF16String u16;
+#ifdef _WIN32
+            int len = MultiByteToWideChar(CP_ACP, 0, (LPCSTR)u8.c_str(), u8.length(), NULL, 0);
+
+            if (len) {
+                std::vector<uint8_t> buf((len + 1) * sizeof(PA_Unichar));
+                if (MultiByteToWideChar(CP_ACP, 0, (LPCSTR)u8.c_str(), u8.length(), (LPWSTR)&buf[0], len)) {
+                    u16 = CUTF16String((const PA_Unichar*)&buf[0]);
+                    ob_set_a(obj, _key, (const wchar_t*)u16.c_str());
+                    success = true;
+                }
+            }
+#else
+            CFStringRef str = CFStringCreateWithBytes(kCFAllocatorDefault, u8.c_str(), u8.length(), kCFStringEncodingUTF8, true);
+            if (str) {
+                CFIndex len = CFStringGetLength(str);
+                std::vector<uint8_t> buf((len + 1) * sizeof(PA_Unichar));
+                CFStringGetCharacters(str, CFRangeMake(0, len), (UniChar*)&buf[0]);
+                u16 = CUTF16String((const PA_Unichar*)&buf[0]);
+                CFRelease(str);
+            }
+#endif
+        }
         iconv_close(conv);
     }
     
