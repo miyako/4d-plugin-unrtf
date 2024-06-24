@@ -45,6 +45,8 @@
 		D130064F12F02D9700702C0E /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D130064E12F02D9700702C0E /* Cocoa.framework */; };
 		D13116A91A03ACB700DE1322 /* 4DPluginAPI.c in Sources */ = {isa = PBXBuildFile; fileRef = D13116A81A03ACB700DE1322 /* 4DPluginAPI.c */; settings = {COMPILER_FLAGS = "-Wno-multichar"; }; };
 		D134D4AC1A030BA0008D14EF /* manifest.json in CopyFiles */ = {isa = PBXBuildFile; fileRef = D134D4A91A030B06008D14EF /* manifest.json */; };
+		D19E94082C2959E80077EA7C /* cpmap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D19E94062C2959E80077EA7C /* cpmap.cpp */; };
+		D19E94092C2959E80077EA7C /* cpmap.h in Headers */ = {isa = PBXBuildFile; fileRef = D19E94072C2959E80077EA7C /* cpmap.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -103,6 +105,8 @@
 		D13116A81A03ACB700DE1322 /* 4DPluginAPI.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = 4DPluginAPI.c; sourceTree = "<group>"; };
 		D134D4A91A030B06008D14EF /* manifest.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = manifest.json; sourceTree = "<group>"; };
 		D14D10DD1A03A8A5008B3411 /* constants.xlf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = constants.xlf; sourceTree = "<group>"; };
+		D19E94062C2959E80077EA7C /* cpmap.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = cpmap.cpp; path = support/cpmap.cpp; sourceTree = "<group>"; };
+		D19E94072C2959E80077EA7C /* cpmap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cpmap.h; path = support/cpmap.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +125,8 @@
 		089C166AFE841209C02AAC07 /* UnRTF */ = {
 			isa = PBXGroup;
 			children = (
+				D19E94062C2959E80077EA7C /* cpmap.cpp */,
+				D19E94072C2959E80077EA7C /* cpmap.h */,
 				D12F244B2753C1C20031588F /* config.h */,
 				D12F24AE2753F2C50031588F /* parse.cpp */,
 				D12F24B22753F2F80031588F /* parse.h */,
@@ -242,6 +248,7 @@
 				D12F24B32753F2F80031588F /* parse.h in Headers */,
 				D12F246B2753D57D0031588F /* hash.h in Headers */,
 				D12F24952753E3220031588F /* output.h in Headers */,
+				D19E94092C2959E80077EA7C /* cpmap.h in Headers */,
 				D12F24AA2753ED8E0031588F /* user.h in Headers */,
 				D12F24642753D4950031588F /* word.h in Headers */,
 				D12F24792753DBA10031588F /* error.h in Headers */,
@@ -360,6 +367,7 @@
 				D12F24802753DC640031588F /* malloc.cpp in Sources */,
 				D12F247C2753DBFD0031588F /* my_iconv.cpp in Sources */,
 				D12F238E2753AE1A0031588F /* 4DPlugin-JSON.cpp in Sources */,
+				D19E94082C2959E80077EA7C /* cpmap.cpp in Sources */,
 				D12F24A62753EC370031588F /* user.cpp in Sources */,
 				D12F24982753E8CB0031588F /* path.cpp in Sources */,
 				D12F246E2753D5CE0031588F /* attr.cpp in Sources */,

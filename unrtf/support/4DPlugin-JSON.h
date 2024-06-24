@@ -11,12 +11,13 @@
 #include <algorithm>    // std::copy
 
 #ifdef __APPLE__
-#include <CoreFoundation/CoreFoundation.h>
+#include <Foundation/Foundation.h>
 #else
 #include <Windows.h>
 #endif
 
 #include "iconv.h"
+#include "cpmap.h"
 
 typedef std::basic_string<PA_Unichar> CUTF16String;
 typedef std::basic_string<uint8_t> CUTF8String;
@@ -25,12 +26,13 @@ void json_wconv(const wchar_t *value, CUTF16String *u16);
 
 void ob_set_p(PA_ObjectRef obj, const wchar_t *_key, PA_Picture value);
 
-void ob_set_s(PA_ObjectRef obj, const wchar_t *_key, const char *_value);
+bool ob_set_s(PA_ObjectRef obj, const wchar_t *_key, const char *_value);
 void ob_set_s(PA_ObjectRef obj, const char *_key, const char *_value);
 
 void ob_set_a(PA_ObjectRef obj, const wchar_t *_key, CUTF16String *value);
 void ob_set_a(PA_ObjectRef obj, const wchar_t *_key, const wchar_t *_value);
 bool ob_set_s(PA_ObjectRef obj, const wchar_t *_key, const char *_value, std::string& encoding);
+bool ob_set_s(PA_ObjectRef obj, const wchar_t *_key, const char *_value, int encoding);
 void ob_set_c(PA_ObjectRef obj, const wchar_t *_key, PA_CollectionRef value);
 void ob_set_c(PA_ObjectRef obj, const char *_key, PA_CollectionRef value);
 

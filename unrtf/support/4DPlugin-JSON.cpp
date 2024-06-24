@@ -97,6 +97,160 @@ void ob_set_s(PA_ObjectRef obj, const char *_key, const char *_value) {
 
 }
 
+bool ob_set_s(PA_ObjectRef obj, const wchar_t *_key, const char *_value, int _encoding) {
+
+    bool success = false;
+    
+    if(_encoding == 0) {
+        
+        return ob_set_s(obj, _key, _value);
+        
+    }else{
+#if VERSIONMAC
+    
+    CFStringEncoding encoding = _CFStringConvertWindowsCodepageToEncoding(_encoding);
+    
+    if((encoding == kCFStringEncodingInvalidId) || !CFStringIsEncodingAvailable(encoding))
+    {
+        
+    }else{
+        
+        NSString *str = (NSString *)CFStringCreateWithBytes(kCFAllocatorDefault,
+                                                            (UInt8 *)_value,
+                                                            strlen(_value),
+                                                            encoding,
+                                                            true);
+        if(str)
+        {
+            uint32_t size = (uint32_t)(((size_t)[str length] * sizeof(PA_Unichar)) + sizeof(PA_Unichar));
+            std::vector<uint8_t> buf(size);
+            if([str getCString:(char *)&buf[0] maxLength:size encoding:NSUnicodeStringEncoding])
+            {
+                CUTF16String u16;
+                u16 = CUTF16String((const PA_Unichar *)&buf[0], (size_t)[str length]);
+                ob_set_a(obj, _key, &u16);
+                success = true;
+            }else
+            {
+
+            }
+            [str release];
+        }
+        
+        else{
+            //try older API
+            TextEncoding textEncoding = TECConvertWindowsCodepageToTextEncoding(_encoding);
+            OptionBits flags = kUnicodeForceASCIIRangeMask|kUnicodeStringUnterminatedMask;
+            UnicodeMapping mapping;
+            mapping.otherEncoding = textEncoding;
+            mapping.unicodeEncoding = kTextEncodingUnicodeDefault;
+            mapping.mappingVersion = kUnicodeUseLatestMapping;
+            TextToUnicodeInfo info;
+            CreateTextToUnicodeInfoByEncoding(textEncoding,&info);
+            ByteCount sourceLen = strlen(_value);
+            ConstLogicalAddress source = _value;
+            ByteCount lengthRead = 0;
+            ByteCount lengthReturned = 0;
+            
+            unsigned int size = (unsigned int)((sourceLen * 4) + 1);
+            std::vector<uint8_t> buf(size);
+            
+            if(info)
+            {
+                ConvertFromTextToUnicode(info,
+                                         sourceLen,
+                                         source,
+                                         flags,
+                                         0,
+                                         NULL,
+                                         NULL,
+                                         NULL,
+                                         size,
+                                         &lengthRead,
+                                         &lengthReturned,
+                                         (UniChar *)&buf[0]);
+            }
+            
+            else{
+                //try even older API
+                TECObjectRef converter;
+                TECCreateConverter(&converter, textEncoding, kTextEncodingUnicodeDefault);
+                if(converter)
+                    TECConvertText(converter,
+                                   (ConstTextPtr)source,
+                                   sourceLen,
+                                   &lengthRead,
+                                   (TextPtr)&buf[0],
+                                   size,
+                                   &lengthReturned);
+                
+            }
+            
+            str = [[NSString alloc]initWithBytes:(const void *)&buf[0] length:size encoding:NSUnicodeStringEncoding];
+            
+            if(str)
+            {
+                uint32_t size = (uint32_t)(([str length] * sizeof(PA_Unichar)) + sizeof(PA_Unichar));
+                std::vector<uint8_t> buf(size);
+                
+                if([str getCString:(char *)&buf[0] maxLength:size encoding:NSUnicodeStringEncoding])
+                {
+                    CUTF16String u16;
+                    u16 = CUTF16String((const PA_Unichar *)&buf[0], (size_t)[str length]);
+                    ob_set_a(obj, _key, &u16);
+                    success = true;
+                }else{
+
+                }
+                
+                [str release];
+            }
+            
+        }
+        
+    }
+    
+#else
+    
+    LPSTR mstr;
+    UINT ulen, len, mlen;
+    DWORD codepage = Param3.getIntValue();
+    DWORD mode = 0;
+    
+    mstr = (LPSTR)Param1.getBytesPtr();
+    mlen = Param1.getBytesLength();
+    
+    IMultiLanguage2 *mlang = NULL;
+    CoCreateInstance(CLSID_CMultiLanguage, NULL, CLSCTX_INPROC_SERVER, IID_IMultiLanguage2, (void **)&mlang);
+    
+    if(mlang)
+    {
+        mlang->ConvertStringToUnicode(&mode, codepage, mstr, &mlen, NULL, &ulen);
+        len = ((ulen * 2) + 2);
+        std::vector<uint8_t> buf(len);
+        HRESULT result = mlang->ConvertStringToUnicode(&mode, codepage, mstr, &mlen, (WCHAR *)&buf[0], &ulen);
+        
+        switch(result){
+            case E_FAIL:
+                returnValue.setIntValue(ERR_CONVERSION_FAILED);
+                break;
+            case S_FALSE:
+                returnValue.setIntValue(ERR_INVALID_ENCODING);
+                break;
+            case S_OK:
+                Param2.setUTF16String((const PA_Unichar *)&buf[0], ulen);
+                break;
+        }
+        
+        mlang->Release();
+    }
+    
+#endif
+    }
+        
+    return success;
+}
+
 bool ob_set_s(PA_ObjectRef obj, const wchar_t *_key, const char *_value, std::string& encoding) {
     
     bool success = false;
@@ -146,7 +300,9 @@ bool ob_set_s(PA_ObjectRef obj, const wchar_t *_key, const char *_value, std::st
     return success;
 }
 
-void ob_set_s(PA_ObjectRef obj, const wchar_t *_key, const char *_value) {
+bool ob_set_s(PA_ObjectRef obj, const wchar_t *_key, const char *_value) {
+    
+    bool success = false;
     
     if(obj)
     {
@@ -167,6 +323,7 @@ void ob_set_s(PA_ObjectRef obj, const wchar_t *_key, const char *_value) {
                 std::vector<uint8_t> buf((len + 1) * sizeof(PA_Unichar));
                 if(MultiByteToWideChar(CP_UTF8, 0, (LPCSTR)u8.c_str(), u8.length(), (LPWSTR)&buf[0], len)){
                     u16 = CUTF16String((const PA_Unichar *)&buf[0]);
+                    success = true;
                 }
             }else{
                 u16 = CUTF16String((const PA_Unichar *)L"");
@@ -180,18 +337,25 @@ void ob_set_s(PA_ObjectRef obj, const wchar_t *_key, const char *_value) {
                 CFStringGetCharacters(str, CFRangeMake(0, len), (UniChar *)&buf[0]);
                 u16 = CUTF16String((const PA_Unichar *)&buf[0]);
                 CFRelease(str);
+                success = true;
+            }else{
+                u16 = CUTF16String((const PA_Unichar *)L"");
             }
 #endif
-            PA_Unistring key = PA_CreateUnistring((PA_Unichar *)ukey.c_str());
-            PA_Unistring value = PA_CreateUnistring((PA_Unichar *)u16.c_str());
-            
-            PA_SetStringVariable(&v, &value);
-            PA_SetObjectProperty(obj, &key, v);
-            
-            PA_DisposeUnistring(&key);
-            PA_ClearVariable(&v);
+            if(success) {
+                PA_Unistring key = PA_CreateUnistring((PA_Unichar *)ukey.c_str());
+                PA_Unistring value = PA_CreateUnistring((PA_Unichar *)u16.c_str());
+                
+                PA_SetStringVariable(&v, &value);
+                PA_SetObjectProperty(obj, &key, v);
+                
+                PA_DisposeUnistring(&key);
+                PA_ClearVariable(&v);
+            }
         }
     }
+    
+    return success;
 }
 
 void ob_set_a(PA_ObjectRef obj, const wchar_t *_key, CUTF16String *value) {

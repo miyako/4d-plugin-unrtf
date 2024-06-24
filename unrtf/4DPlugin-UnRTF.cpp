@@ -118,16 +118,19 @@ static void UnRTF(PA_PluginParameters params) {
         unrtf_format_t fmt = unrtf_format_html;
         
         std::string encoding;
+        int codepage = 0;
         
         std::string path;
         if(getUnRTFConf(path)) {
             PA_ObjectRef options = PA_GetObjectParameter(params, 2);
             if(options) {
                 
-                CUTF8String _encoding;
-                if(ob_get_s(options, L"encoding", &_encoding) &&(_encoding.length())) {
-                    encoding = (const char *)_encoding.c_str();
-                }
+                codepage = ob_get_n(options, L"codepage");
+
+//                CUTF8String _encoding;
+//                if(ob_get_s(options, L"encoding", &_encoding) &&(_encoding.length())) {
+//                    encoding = (const char *)_encoding.c_str();
+//                }
                 
                 CUTF8String format;
                 if(ob_get_s(options, L"format", &format)) {
@@ -184,7 +187,7 @@ static void UnRTF(PA_PluginParameters params) {
                     word = word_read(f);
                     std::string output;
                     word_print(word, output, op);
-                    bool success = ob_set_s(status, L"result", output.c_str(), encoding);
+                    bool success = ob_set_s(status, L"result", output.c_str(), codepage);
                     if(success) {
                         ob_set_b(status, L"success", true);
                     }else{
