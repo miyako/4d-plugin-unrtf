@@ -67,7 +67,7 @@
 #include "word.h"
 #include "hash.h"
 
-
+#include <stdexcept>
 
 /* local to getchar stuff */
 static int ungot_char = -1;
@@ -86,7 +86,7 @@ static void my_unget_char(int ch)
 {
 	if (ungot_char >= 0 && ungot_char2 >= 0 && ungot_char3 >= 0)
 	{
-		error_handler("More than 3 ungot chars");
+		error_handler((char *)"More than 3 ungot chars");
 	}
 
 	ungot_char3 = ungot_char2;
@@ -149,7 +149,7 @@ static int my_getchar(FILE *f)
 					read_buf = my_malloc(buffer_size);
 					if (!read_buf)
 					{
-						error_handler("Cannot allocate read buffer");
+						error_handler((char*)"Cannot allocate read buffer");
 					}
 				}
 			}
