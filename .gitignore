@@ -1,0 +1,7 @@
+**/.DS_Store
+unrtf/build/*
+unrtf/UnRTF.xcodeproj/xcshareddata/xcschemes/UnRTF.xcscheme
+unrtf/test/userPreferences.*
+unrtf/test/Project/DerivedData/*
+unrtf/test/Data/*
+unrtf/test/Data/data.journal
