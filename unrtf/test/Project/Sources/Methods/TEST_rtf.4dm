@@ -5,7 +5,6 @@ var $RTF : Blob
 
 $RTF:=$file.getContent()
 
-$options:=New object:C1471("format"; "txt"; "encoding"; "windows-1252")
+$options:=New object:C1471("format"; "txt"; "codepage"; 1252)
 
 $status:=UnRTF($RTF; $options)
-
