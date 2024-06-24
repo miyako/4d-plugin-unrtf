@@ -117,10 +117,18 @@ static void UnRTF(PA_PluginParameters params) {
         
         unrtf_format_t fmt = unrtf_format_html;
         
+        std::string encoding;
+        
         std::string path;
         if(getUnRTFConf(path)) {
             PA_ObjectRef options = PA_GetObjectParameter(params, 2);
             if(options) {
+                
+                CUTF8String _encoding;
+                if(ob_get_s(options, L"encoding", &_encoding) &&(_encoding.length())) {
+                    encoding = (const char *)_encoding.c_str();
+                }
+                
                 CUTF8String format;
                 if(ob_get_s(options, L"format", &format)) {
                     if(format == (const uint8_t *)"tex"){
@@ -161,6 +169,7 @@ static void UnRTF(PA_PluginParameters params) {
         op = user_init(op, (char *)path.c_str());
         
         if(op) {
+//            add_alias(op, 0xE9, "é");
 #if VERSIONWIN
 			std::FILE* f = std::tmpfile();
 			std::fwrite(PA_LockHandle(h), sizeof(char), (size_t)PA_GetHandleSize(h), f);
@@ -175,8 +184,12 @@ static void UnRTF(PA_PluginParameters params) {
                     word = word_read(f);
                     std::string output;
                     word_print(word, output, op);
-                    ob_set_s(status, L"result", output.c_str());
-                    ob_set_b(status, L"success", true);
+                    bool success = ob_set_s(status, L"result", output.c_str(), encoding);
+                    if(success) {
+                        ob_set_b(status, L"success", true);
+                    }else{
+                        ob_set_s(status, L"error", "bad encoding");
+                    }
                 } catch (const std::invalid_argument& e) {
                     ob_set_s(status, L"error", e.what());
                 }

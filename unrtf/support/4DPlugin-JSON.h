@@ -16,6 +16,8 @@
 #include <Windows.h>
 #endif
 
+#include "iconv.h"
+
 typedef std::basic_string<PA_Unichar> CUTF16String;
 typedef std::basic_string<uint8_t> CUTF8String;
 
@@ -28,7 +30,7 @@ void ob_set_s(PA_ObjectRef obj, const char *_key, const char *_value);
 
 void ob_set_a(PA_ObjectRef obj, const wchar_t *_key, CUTF16String *value);
 void ob_set_a(PA_ObjectRef obj, const wchar_t *_key, const wchar_t *_value);
-
+bool ob_set_s(PA_ObjectRef obj, const wchar_t *_key, const char *_value, std::string& encoding);
 void ob_set_c(PA_ObjectRef obj, const wchar_t *_key, PA_CollectionRef value);
 void ob_set_c(PA_ObjectRef obj, const char *_key, PA_CollectionRef value);
 

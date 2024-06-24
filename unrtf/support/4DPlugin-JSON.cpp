@@ -97,6 +97,30 @@ void ob_set_s(PA_ObjectRef obj, const char *_key, const char *_value) {
 
 }
 
+bool ob_set_s(PA_ObjectRef obj, const wchar_t *_key, const char *_value, std::string& encoding) {
+    
+    bool success = false;
+    
+    iconv_t conv = iconv_open(encoding.c_str(), "utf-8");
+
+    if (conv != (iconv_t)-1) {
+        
+        size_t inLen = strlen(_value);
+        size_t outLen = inLen*4;
+        std::vector<unsigned char>buf(outLen+sizeof(PA_Unichar));
+        char *pIn  = (char *)_value;
+        char *pOut  = (char *)&buf[0];
+        size_t res = iconv(conv, &pIn, &inLen, &pOut, &outLen);
+        if(res != -1) {
+            ob_set_s(obj, _key, (const char *)&buf[0]);
+            success = true;
+        }
+        iconv_close(conv);
+    }
+    
+    return success;
+}
+
 void ob_set_s(PA_ObjectRef obj, const wchar_t *_key, const char *_value) {
     
     if(obj)
