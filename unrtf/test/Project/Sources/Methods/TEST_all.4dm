@@ -1,4 +1,4 @@
 //%attributes = {}
-TEST ("html")
-TEST ("text")
-TEST ("tex")
+TEST("html")
+TEST("txt")
+TEST("tex")
