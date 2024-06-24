@@ -7,3 +7,7 @@ unrtf/test/Data/*
 unrtf/test/Data/data.journal
 unrtf/UnRTF.xcodeproj/project.xcworkspace/xcuserdata/miyako.xcuserdatad/UserInterfaceState.xcuserstate
 unrtf/.vs/*
+unrtf/Objs/*
+unrtf/test/Plugins/UnRTF.bundle/Contents/Windows64/UnRTF.exp
+unrtf/test/Plugins/UnRTF.bundle/Contents/Windows64/UnRTF.lib
+unrtf/test/Plugins/UnRTF.bundle/Contents/Windows64/UnRTF.pdb

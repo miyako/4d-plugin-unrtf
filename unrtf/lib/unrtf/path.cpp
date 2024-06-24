@@ -5,7 +5,9 @@
 #include <stdio.h>
 #include <string.h>
 #ifdef HAVE_UNISTD_H
+#ifndef _WIN32
 #include <unistd.h>
+#endif
 #else
 #ifndef _WIN32
 #include "safeunistd.h"
@@ -13,7 +15,9 @@
 #endif
 
 #ifdef _WIN32
-#include <unistd.h>
+//#include <unistd.h>
+#include "safeunistd.h"
+#include "windows.h"
 #endif
 
 #include <stdlib.h>
@@ -58,7 +62,7 @@ char *search_in_path(const char *name, char *suffix)
     resourcesPath += fDir;
     resourcesPath += L"Resources\\";
     
-    std::wstring u16 = (const wchar_t *)resourcesPath;
+    std::wstring u16 = (const wchar_t *)resourcesPath.c_str();
     
     int len = WideCharToMultiByte(CP_UTF8, 0, (LPCWSTR)u16.c_str(), u16.length(), NULL, 0, NULL, NULL);
     
