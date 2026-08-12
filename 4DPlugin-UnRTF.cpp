@@ -145,7 +145,13 @@ static void UnRTF(PA_PluginParameters params) {
                 }
                 /* else: leave codepage at its default (0). A NaN/Inf/
                    out-of-range double->int conversion here is undefined
-                   behavior, and "codepage" is caller-controlled input. */
+                   behavior, and "codepage" is caller-controlled input.
+                   NOTE: as of this fix, `codepage` is read but not
+                   consumed anywhere below -- ob_set_s has no encoding
+                   parameter (see the fix at word_print's call site).
+                   Left in place rather than silently dropped, since
+                   wiring it into a real encoding conversion is a design
+                   decision for the plugin author, not a compile fix. */
 
 //                CUTF8String _encoding;
 //                if(ob_get_s(options, L"encoding", &_encoding) &&(_encoding.length())) {
@@ -153,7 +159,7 @@ static void UnRTF(PA_PluginParameters params) {
 //                }
                 
                 CUTF8String format;
-                if(ob_get_s(options, L"format", &format)) {
+                if(ob_get_a(options, L"format", &format)) {
                     if(format == (const uint8_t *)"tex"){
                         fmt = unrtf_format_latex;goto set_format;
                     }
@@ -209,12 +215,15 @@ static void UnRTF(PA_PluginParameters params) {
                     word = word_read(f);
                     std::string output;
                     word_print(word, output, op);
-                    bool success = ob_set_s(status, L"result", output.c_str(), codepage);
-                    if(success) {
-                        ob_set_b(status, L"success", true);
-                    }else{
-                        ob_set_s(status, L"error", "bad encoding");
-                    }
+                    /* The real ob_set_s (support/4DPlugin-JSON.h, v1.0.1) is
+                       void and takes exactly (obj, key, value) -- there is
+                       no codepage-taking overload, and never has been in
+                       this header. The previous 4-argument call and the
+                       "bad encoding" failure branch it fed were calling a
+                       function that doesn't exist; "codepage" currently has
+                       no effect on the result through this API at all. */
+                    ob_set_s(status, L"result", output.c_str());
+                    ob_set_b(status, L"success", true);
                 } catch (const std::exception& e) {
                     /* Catches word_read's std::invalid_argument as before,
                        plus any other std::exception-derived type (e.g.
