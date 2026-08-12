@@ -11,3 +11,4 @@ unrtf/Objs/*
 unrtf/test/Plugins/UnRTF.bundle/Contents/Windows64/UnRTF.exp
 unrtf/test/Plugins/UnRTF.bundle/Contents/Windows64/UnRTF.lib
 unrtf/test/Plugins/UnRTF.bundle/Contents/Windows64/UnRTF.pdb
+test/Plugins/XCBuildData/*
